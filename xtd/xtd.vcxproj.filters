@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{616d0ae2-aa5e-44c6-a44a-62e12b993e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\xtd">
+      <UniqueIdentifier>{6eac10ec-4f3a-4741-b843-fc2c64ac841f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Core">
+      <UniqueIdentifier>{c09d19c5-8fcc-49db-8b95-fd74caa494ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform">
+      <UniqueIdentifier>{192c5e3c-74ca-4dfb-be77-3836f42100e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\Windows">
+      <UniqueIdentifier>{d372f610-f140-478d-869b-1d8b95c82a0c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\XtdDefinePrivate.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\XtdUnicode.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\XtdMath.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WinAPI.cpp">
+      <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\xtd\XtdDefine.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\XtdDefinePrivate.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\xtd\XtdString.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\xtd\XtdUnicode.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\xtd\XtdMath.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
+    <ClInclude Include="include\xtd\Xtd.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WinAPI.h">
+      <Filter>src\Platform\Windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
