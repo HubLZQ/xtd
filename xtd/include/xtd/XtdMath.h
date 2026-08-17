@@ -5,6 +5,8 @@
     #include <corecrt_math_defines.h>
 #endif
 
+// ReSharper disable CppCStyleCast
+
 BEGIN_NAMESPACE_XTD
 
 static constexpr double X_E        = 2.71828182845904523536; // e
@@ -40,46 +42,58 @@ constexpr auto Clamp(const T& value, const T& min, const T& max)
 }
 
 // clang-format off
-inline I32 ToI32(const Char* str, Char** strEnd = nullptr, int base = 0) { return ::strtol  (str, strEnd, base); }
-inline I64 ToI64(const Char* str, Char** strEnd = nullptr, int base = 0) { return ::strtoll (str, strEnd, base); }
-inline U32 ToU32(const Char* str, Char** strEnd = nullptr, int base = 0) { return ::strtoul (str, strEnd, base); }
-inline U64 ToU64(const Char* str, Char** strEnd = nullptr, int base = 0) { return ::strtoull(str, strEnd, base); }
-inline F32 ToF32(const Char* str, Char** strEnd = nullptr              ) { return ::strtof  (str, strEnd      ); }
-inline F64 ToF64(const Char* str, Char** strEnd = nullptr              ) { return ::strtod  (str, strEnd      ); }
+inline I32 ToI32(const Char* str, Char** strEnd = Null, const int base = 0) { return ::strtol  (str, strEnd, base); }
+inline I64 ToI64(const Char* str, Char** strEnd = Null, const int base = 0) { return ::strtoll (str, strEnd, base); }
+inline U32 ToU32(const Char* str, Char** strEnd = Null, const int base = 0) { return ::strtoul (str, strEnd, base); }
+inline U64 ToU64(const Char* str, Char** strEnd = Null, const int base = 0) { return ::strtoull(str, strEnd, base); }
+inline F32 ToF32(const Char* str, Char** strEnd = Null                    ) { return ::strtof  (str, strEnd      ); }
+inline F64 ToF64(const Char* str, Char** strEnd = Null                    ) { return ::strtod  (str, strEnd      ); }
+inline I32 ToI32(const Str& str, size_t* idx = Null, const int base = 0   ) { Char* strEnd = Null; const auto v = ::strtol  (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline I64 ToI64(const Str& str, size_t* idx = Null, const int base = 0   ) { Char* strEnd = Null; const auto v = ::strtoll (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline U32 ToU32(const Str& str, size_t* idx = Null, const int base = 0   ) { Char* strEnd = Null; const auto v = ::strtoul (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline U64 ToU64(const Str& str, size_t* idx = Null, const int base = 0   ) { Char* strEnd = Null; const auto v = ::strtoull(str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline F32 ToF32(const Str& str, size_t* idx = Null                       ) { Char* strEnd = Null; const auto v = ::strtof  (str.c_str(), idx ? &strEnd : Null      ); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline F64 ToF64(const Str& str, size_t* idx = Null                       ) { Char* strEnd = Null; const auto v = ::strtod  (str.c_str(), idx ? &strEnd : Null      ); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
 
-inline I32 ToI32(const WChar* str, WChar** strEnd = nullptr, int base = 0) { return ::wcstol  (str, strEnd, base); }
-inline I64 ToI64(const WChar* str, WChar** strEnd = nullptr, int base = 0) { return ::wcstoll (str, strEnd, base); }
-inline U32 ToU32(const WChar* str, WChar** strEnd = nullptr, int base = 0) { return ::wcstoul (str, strEnd, base); }
-inline U64 ToU64(const WChar* str, WChar** strEnd = nullptr, int base = 0) { return ::wcstoull(str, strEnd, base); }
-inline F32 ToF32(const WChar* str, WChar** strEnd = nullptr              ) { return ::wcstof  (str, strEnd      ); }
-inline F64 ToF64(const WChar* str, WChar** strEnd = nullptr              ) { return ::wcstod  (str, strEnd      ); }
+inline I32 ToI32(const WChar* str, WChar** strEnd = Null, const int base = 0) { return ::wcstol  (str, strEnd, base); }
+inline I64 ToI64(const WChar* str, WChar** strEnd = Null, const int base = 0) { return ::wcstoll (str, strEnd, base); }
+inline U32 ToU32(const WChar* str, WChar** strEnd = Null, const int base = 0) { return ::wcstoul (str, strEnd, base); }
+inline U64 ToU64(const WChar* str, WChar** strEnd = Null, const int base = 0) { return ::wcstoull(str, strEnd, base); }
+inline F32 ToF32(const WChar* str, WChar** strEnd = Null                    ) { return ::wcstof  (str, strEnd      ); }
+inline F64 ToF64(const WChar* str, WChar** strEnd = Null                    ) { return ::wcstod  (str, strEnd      ); }
+inline I32 ToI32(const WStr& str, size_t* idx = Null, const int base = 0    ) { WChar* strEnd = Null; const auto v = ::wcstol  (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline I64 ToI64(const WStr& str, size_t* idx = Null, const int base = 0    ) { WChar* strEnd = Null; const auto v = ::wcstoll (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline U32 ToU32(const WStr& str, size_t* idx = Null, const int base = 0    ) { WChar* strEnd = Null; const auto v = ::wcstoul (str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline U64 ToU64(const WStr& str, size_t* idx = Null, const int base = 0    ) { WChar* strEnd = Null; const auto v = ::wcstoull(str.c_str(), idx ? &strEnd : Null, base); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline F32 ToF32(const WStr& str, size_t* idx = Null                        ) { WChar* strEnd = Null; const auto v = ::wcstof  (str.c_str(), idx ? &strEnd : Null      ); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
+inline F64 ToF64(const WStr& str, size_t* idx = Null                        ) { WChar* strEnd = Null; const auto v = ::wcstod  (str.c_str(), idx ? &strEnd : Null      ); if(idx) *idx = (size_t)(strEnd - str.c_str()); return v; }
 
 #ifdef XTD_PLATFORM_WINDOWS
-inline  I32 ToI32(const Char16* str, Char16** strEnd = nullptr, int base = 0) { return ::wcstol  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  I64 ToI64(const Char16* str, Char16** strEnd = nullptr, int base = 0) { return ::wcstoll (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  U32 ToU32(const Char16* str, Char16** strEnd = nullptr, int base = 0) { return ::wcstoul (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  U64 ToU64(const Char16* str, Char16** strEnd = nullptr, int base = 0) { return ::wcstoull(reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  F32 ToF32(const Char16* str, Char16** strEnd = nullptr              ) { return ::wcstof  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd)      ); }
-inline  F64 ToF64(const Char16* str, Char16** strEnd = nullptr              ) { return ::wcstod  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd)      ); }
-XTD_API I32 ToI32(const Char32* str, Char32** strEnd = nullptr, int base = 0);
-XTD_API I64 ToI64(const Char32* str, Char32** strEnd = nullptr, int base = 0);
-XTD_API U32 ToU32(const Char32* str, Char32** strEnd = nullptr, int base = 0);
-XTD_API U64 ToU64(const Char32* str, Char32** strEnd = nullptr, int base = 0);
-XTD_API F32 ToF32(const Char32* str, Char32** strEnd = nullptr              );
-XTD_API F64 ToF64(const Char32* str, Char32** strEnd = nullptr              );
+inline  I32 ToI32(const Char16* str, Char16** strEnd = Null, const int base = 0) { return ::wcstol  ((const WChar*)str, (WChar**)strEnd, base); }
+inline  I64 ToI64(const Char16* str, Char16** strEnd = Null, const int base = 0) { return ::wcstoll ((const WChar*)str, (WChar**)strEnd, base); }
+inline  U32 ToU32(const Char16* str, Char16** strEnd = Null, const int base = 0) { return ::wcstoul ((const WChar*)str, (WChar**)strEnd, base); }
+inline  U64 ToU64(const Char16* str, Char16** strEnd = Null, const int base = 0) { return ::wcstoull((const WChar*)str, (WChar**)strEnd, base); }
+inline  F32 ToF32(const Char16* str, Char16** strEnd = Null                    ) { return ::wcstof  ((const WChar*)str, (WChar**)strEnd      ); }
+inline  F64 ToF64(const Char16* str, Char16** strEnd = Null                    ) { return ::wcstod  ((const WChar*)str, (WChar**)strEnd      ); }
+XTD_API I32 ToI32(const Char32* str, Char32** strEnd = Null, int base = 0);
+XTD_API I64 ToI64(const Char32* str, Char32** strEnd = Null, int base = 0);
+XTD_API U32 ToU32(const Char32* str, Char32** strEnd = Null, int base = 0);
+XTD_API U64 ToU64(const Char32* str, Char32** strEnd = Null, int base = 0);
+XTD_API F32 ToF32(const Char32* str, Char32** strEnd = Null              );
+XTD_API F64 ToF64(const Char32* str, Char32** strEnd = Null              );
 #else
-XTD_API I32 ToI32(const Char16* str, Char16** strEnd = nullptr, int base = 0);
-XTD_API I64 ToI64(const Char16* str, Char16** strEnd = nullptr, int base = 0);
-XTD_API U32 ToU32(const Char16* str, Char16** strEnd = nullptr, int base = 0);
-XTD_API U64 ToU64(const Char16* str, Char16** strEnd = nullptr, int base = 0);
-XTD_API F32 ToF32(const Char16* str, Char16** strEnd = nullptr              );
-XTD_API F64 ToF64(const Char16* str, Char16** strEnd = nullptr              );
-inline  I32 ToI32(const Char32* str, Char32** strEnd = nullptr, int base = 0) { return ::wcstol  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  I64 ToI64(const Char32* str, Char32** strEnd = nullptr, int base = 0) { return ::wcstoll (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  U32 ToU32(const Char32* str, Char32** strEnd = nullptr, int base = 0) { return ::wcstoul (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  U64 ToU64(const Char32* str, Char32** strEnd = nullptr, int base = 0) { return ::wcstoull(reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd), base); }
-inline  F32 ToF32(const Char32* str, Char32** strEnd = nullptr              ) { return ::wcstof  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd)      ); }
-inline  F64 ToF64(const Char32* str, Char32** strEnd = nullptr              ) { return ::wcstod  (reinterpret_cast<const WChar*>(str), reinterpret_cast<WChar**>(strEnd)      ); }
+XTD_API I32 ToI32(const Char16* str, Char16** strEnd = Null, int base = 0);
+XTD_API I64 ToI64(const Char16* str, Char16** strEnd = Null, int base = 0);
+XTD_API U32 ToU32(const Char16* str, Char16** strEnd = Null, int base = 0);
+XTD_API U64 ToU64(const Char16* str, Char16** strEnd = Null, int base = 0);
+XTD_API F32 ToF32(const Char16* str, Char16** strEnd = Null              );
+XTD_API F64 ToF64(const Char16* str, Char16** strEnd = Null              );
+inline  I32 ToI32(const Char32* str, Char32** strEnd = Null, int base = 0) { return ::wcstol  ((const WChar*)str, (WChar**)strEnd, base); }
+inline  I64 ToI64(const Char32* str, Char32** strEnd = Null, int base = 0) { return ::wcstoll ((const WChar*)str, (WChar**)strEnd, base); }
+inline  U32 ToU32(const Char32* str, Char32** strEnd = Null, int base = 0) { return ::wcstoul ((const WChar*)str, (WChar**)strEnd, base); }
+inline  U64 ToU64(const Char32* str, Char32** strEnd = Null, int base = 0) { return ::wcstoull((const WChar*)str, (WChar**)strEnd, base); }
+inline  F32 ToF32(const Char32* str, Char32** strEnd = Null              ) { return ::wcstof  ((const WChar*)str, (WChar**)strEnd      ); }
+inline  F64 ToF64(const Char32* str, Char32** strEnd = Null              ) { return ::wcstod  ((const WChar*)str, (WChar**)strEnd      ); }
 #endif
 // clang-format on
 
