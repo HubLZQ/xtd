@@ -116,6 +116,7 @@ using SByte = int8_t;
 
 constexpr Bool True  = true;
 constexpr Bool False = false;
+constexpr auto Null  = nullptr;
 
 #ifdef XTD_CPP_20
 using U8Str = std::u8string;
