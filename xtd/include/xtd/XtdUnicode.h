@@ -681,21 +681,21 @@ void UtfxToUtfy(const TInput* input, size_t len, TOutput& output)
 }
 
 // clang-format off
-void AnsiToWide  (const Char*   str, size_t len, WStr&   output);
-void AnsiToUtf8  (const Char*   str, size_t len, U8Str&  output);
-void AnsiToUtf16 (const Char*   str, size_t len, U16Str& output);
-void AnsiToUtf32 (const Char*   str, size_t len, U32Str& output);
-void WideToAnsi  (const WChar*  str, size_t len, Str&    output);
-void WideToUtf8  (const WChar*  str, size_t len, U8Str&  output);
-void WideToUtf16 (const WChar*  str, size_t len, U16Str& output);
-void WideToUtf32 (const WChar*  str, size_t len, U32Str& output);
-void Utf8ToAnsi  (const Char8*  str, size_t len, Str&    output);
-void Utf8ToWide  (const Char8*  str, size_t len, WStr&   output);
-void Utf16ToAnsi (const Char16* str, size_t len, Str&    output);
-void Utf16ToWide (const Char16* str, size_t len, WStr&   output);
-void Utf32ToAnsi (const Char32* str, size_t len, Str&    output);
-void Utf32ToWide (const Char32* str, size_t len, WStr&   output);
-// clang-format on
+void AnsiToWide (const Char*   str, size_t len, WStr&   output);
+void AnsiToUtf8 (const Char*   str, size_t len, U8Str&  output);
+void AnsiToUtf16(const Char*   str, size_t len, U16Str& output);
+void AnsiToUtf32(const Char*   str, size_t len, U32Str& output);
+void WideToAnsi (const WChar*  str, size_t len, Str&    output);
+void WideToUtf8 (const WChar*  str, size_t len, U8Str&  output);
+void WideToUtf16(const WChar*  str, size_t len, U16Str& output);
+void WideToUtf32(const WChar*  str, size_t len, U32Str& output);
+void Utf8ToAnsi (const Char8*  str, size_t len, Str&    output);
+void Utf8ToWide (const Char8*  str, size_t len, WStr&   output);
+void Utf16ToAnsi(const Char16* str, size_t len, Str&    output);
+void Utf16ToWide(const Char16* str, size_t len, WStr&   output);
+void Utf32ToAnsi(const Char32* str, size_t len, Str&    output);
+void Utf32ToWide(const Char32* str, size_t len, WStr&   output);
+// clang-format n
 }// namespace detail
 
 // clang-format off

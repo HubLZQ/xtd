@@ -219,7 +219,7 @@ void Utf32ToWide(const Char32* str, size_t len, WStr& output)
                       reinterpret_cast<const utf32::char_type*>(str) + len,
                       std::back_inserter(output));
 }
-}// namespace text
 }// namespace detail
+}// namespace text
 
 END_NAMESPACE_XTD

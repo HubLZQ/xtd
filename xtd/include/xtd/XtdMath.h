@@ -97,4 +97,25 @@ inline  F64 ToF64(const Char32* str, Char32** strEnd = Null              ) { ret
 #endif
 // clang-format on
 
+template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+std::string ToStr(T value)
+{
+    return std::to_string(value);
+}
+
+template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
+std::wstring ToWStr(T value)
+{
+    return std::to_wstring(value);
+}
+
+// clang-format off
+std::string  ToStr (float       value, int precision = 6, bool scientific = false, bool upperCase = false);
+std::string  ToStr (double      value, int precision = 6, bool scientific = false, bool upperCase = false);
+std::string  ToStr (long double value, int precision = 6, bool scientific = false, bool upperCase = false);
+std::wstring ToWStr(float       value, int precision = 6, bool scientific = false, bool upperCase = false);
+std::wstring ToWStr(double      value, int precision = 6, bool scientific = false, bool upperCase = false);
+std::wstring ToWStr(long double value, int precision = 6, bool scientific = false, bool upperCase = false);
+// clang-format on
+
 END_NAMESPACE_XTD

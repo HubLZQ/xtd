@@ -60,6 +60,8 @@
     <ClInclude Include="src\Platform\Windows\WinAPI.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="include\xtd\XtdTraits.h" />
+    <ClInclude Include="include\xtd\XtdTraits.h">
+      <Filter>include\xtd</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

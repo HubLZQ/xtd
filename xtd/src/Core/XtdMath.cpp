@@ -1,5 +1,6 @@
-﻿#include <xtd/XtdMath.h>
-
+﻿#include <iomanip>
+#include <sstream>
+#include "xtd/XtdMath.h"
 #include "xtd/XtdUnicode.h"
 
 BEGIN_NAMESPACE_XTD
@@ -47,7 +48,7 @@ TRet ToTRet(const Char32* str, Char32** strEnd, const int base)
     text::Utf32ToWStr(str, -1, strTmp);
     return StrToT<TRet, Char32, WChar>(str, strEnd, base, strTmp);
 }
-}//namespace
+}// namespace
 
 I32 ToI32(const Char32* str, Char32** strEnd, const int base) { return ToTRet<I32>(str, strEnd, base); }
 I64 ToI64(const Char32* str, Char32** strEnd, const int base) { return ToTRet<I64>(str, strEnd, base); }
@@ -67,7 +68,7 @@ TRet ToTRet(const Char16* str, Char16** strEnd, const int base)
     text::Utf16ToWStr(str, -1, strTmp);
     return StrToT<TRet, Char16, WChar>(str, strEnd, base, strTmp);
 }
-}//namespace
+}// namespace
 
 I32 ToI32(const Char16* str, Char16** strEnd, const int base) { return ToTRet<I32>(str, strEnd, base); }
 I64 ToI64(const Char16* str, Char16** strEnd, const int base) { return ToTRet<I64>(str, strEnd, base); }
@@ -76,5 +77,54 @@ U64 ToU64(const Char16* str, Char16** strEnd, const int base) { return ToTRet<U6
 F32 ToF32(const Char16* str, Char16** strEnd) { return ToTRet<F32>(str, strEnd, 0); }
 F64 ToF64(const Char16* str, Char16** strEnd) { return ToTRet<F64>(str, strEnd, 0); }
 
-#endif//#ifdef XTD_PLATFORM_WINDOWS
+#endif// #ifdef XTD_PLATFORM_WINDOWS
+
+std::string ToStr(float value, int precision, bool scientific, bool upperCase)
+{
+    char        buf[64]{};
+    const char* fmt = scientific ? (upperCase ? "%.*E" : "%.*e") : "%.*f";
+    (void)snprintf(buf, sizeof(buf), fmt, precision, value);// NOLINT(clang-diagnostic-format-nonliteral)
+    return std::string{buf};
+}
+
+std::string ToStr(double value, int precision, bool scientific, bool upperCase)
+{
+    char        buf[64]{};
+    const char* fmt = scientific ? (upperCase ? "%.*E" : "%.*e") : "%.*f";
+    (void)snprintf(buf, sizeof(buf), fmt, precision, value);// NOLINT(clang-diagnostic-format-nonliteral)
+    return std::string{buf};
+}
+
+std::string ToStr(long double value, int precision, bool scientific, bool upperCase)
+{
+    char        buf[64]{};
+    const char* fmt = scientific ? (upperCase ? "%.*E" : "%.*e") : "%.*f";
+    (void)snprintf(buf, sizeof(buf), fmt, precision, value);// NOLINT(clang-diagnostic-format-nonliteral)
+    return std::string{buf};
+}
+
+std::wstring ToWStr(float value, int precision, bool scientific, bool upperCase)
+{
+    wchar_t        buf[64]{};
+    const wchar_t* fmt = scientific ? (upperCase ? L"%.*E" : L"%.*e") : L"%.*f";// NOLINT(clang-diagnostic-format-nonliteral)
+    (void)swprintf(buf, sizeof(buf), fmt, precision, value);
+    return std::wstring{buf};
+}
+
+std::wstring ToWStr(double value, int precision, bool scientific, bool upperCase)
+{
+    wchar_t        buf[64]{};
+    const wchar_t* fmt = scientific ? (upperCase ? L"%.*E" : L"%.*e") : L"%.*f";// NOLINT(clang-diagnostic-format-nonliteral)
+    (void)swprintf(buf, sizeof(buf), fmt, precision, value);
+    return std::wstring{buf};
+}
+
+std::wstring ToWStr(long double value, int precision, bool scientific, bool upperCase)
+{
+    wchar_t        buf[64]{};
+    const wchar_t* fmt = scientific ? (upperCase ? L"%.*E" : L"%.*e") : L"%.*f";// NOLINT(clang-diagnostic-format-nonliteral)
+    (void)swprintf(buf, sizeof(buf), fmt, precision, value);
+    return std::wstring{buf};
+}
+
 END_NAMESPACE_XTD
