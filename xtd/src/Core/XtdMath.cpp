@@ -42,7 +42,7 @@ TRet StrToT(const T* str, T** strEnd, int base, const std::basic_string<TCharCvt
 namespace
 {
 template<typename TRet>
-TRet ToTRet(const Char32* str, Char32** strEnd, const int base)
+TRet ToTImpl(const Char32* str, Char32** strEnd, const int base)
 {
     WStr strTmp;
     text::Utf32ToWStr(str, -1, strTmp);
@@ -50,19 +50,19 @@ TRet ToTRet(const Char32* str, Char32** strEnd, const int base)
 }
 }// namespace
 
-I32 ToI32(const Char32* str, Char32** strEnd, const int base) { return ToTRet<I32>(str, strEnd, base); }
-I64 ToI64(const Char32* str, Char32** strEnd, const int base) { return ToTRet<I64>(str, strEnd, base); }
-U32 ToU32(const Char32* str, Char32** strEnd, const int base) { return ToTRet<U32>(str, strEnd, base); }
-U64 ToU64(const Char32* str, Char32** strEnd, const int base) { return ToTRet<U64>(str, strEnd, base); }
-F32 ToF32(const Char32* str, Char32** strEnd) { return ToTRet<F32>(str, strEnd, 0); }
-F64 ToF64(const Char32* str, Char32** strEnd) { return ToTRet<F64>(str, strEnd, 0); }
+I32 ToI32(const Char32* str, Char32** strEnd, const int base) { return ToTImpl<I32>(str, strEnd, base); }
+I64 ToI64(const Char32* str, Char32** strEnd, const int base) { return ToTImpl<I64>(str, strEnd, base); }
+U32 ToU32(const Char32* str, Char32** strEnd, const int base) { return ToTImpl<U32>(str, strEnd, base); }
+U64 ToU64(const Char32* str, Char32** strEnd, const int base) { return ToTImpl<U64>(str, strEnd, base); }
+F32 ToF32(const Char32* str, Char32** strEnd) { return ToTImpl<F32>(str, strEnd, 0); }
+F64 ToF64(const Char32* str, Char32** strEnd) { return ToTImpl<F64>(str, strEnd, 0); }
 
 #else// other platforms
 
 namespace
 {
 template<typename TRet>
-TRet ToTRet(const Char16* str, Char16** strEnd, const int base)
+TRet ToTImpl(const Char16* str, Char16** strEnd, const int base)
 {
     WStr strTmp;
     text::Utf16ToWStr(str, -1, strTmp);
@@ -70,12 +70,12 @@ TRet ToTRet(const Char16* str, Char16** strEnd, const int base)
 }
 }// namespace
 
-I32 ToI32(const Char16* str, Char16** strEnd, const int base) { return ToTRet<I32>(str, strEnd, base); }
-I64 ToI64(const Char16* str, Char16** strEnd, const int base) { return ToTRet<I64>(str, strEnd, base); }
-U32 ToU32(const Char16* str, Char16** strEnd, const int base) { return ToTRet<U32>(str, strEnd, base); }
-U64 ToU64(const Char16* str, Char16** strEnd, const int base) { return ToTRet<U64>(str, strEnd, base); }
-F32 ToF32(const Char16* str, Char16** strEnd) { return ToTRet<F32>(str, strEnd, 0); }
-F64 ToF64(const Char16* str, Char16** strEnd) { return ToTRet<F64>(str, strEnd, 0); }
+I32 ToI32(const Char16* str, Char16** strEnd, const int base) { return ToTImpl<I32>(str, strEnd, base); }
+I64 ToI64(const Char16* str, Char16** strEnd, const int base) { return ToTImpl<I64>(str, strEnd, base); }
+U32 ToU32(const Char16* str, Char16** strEnd, const int base) { return ToTImpl<U32>(str, strEnd, base); }
+U64 ToU64(const Char16* str, Char16** strEnd, const int base) { return ToTImpl<U64>(str, strEnd, base); }
+F32 ToF32(const Char16* str, Char16** strEnd) { return ToTImpl<F32>(str, strEnd, 0); }
+F64 ToF64(const Char16* str, Char16** strEnd) { return ToTImpl<F64>(str, strEnd, 0); }
 
 #endif// #ifdef XTD_PLATFORM_WINDOWS
 
