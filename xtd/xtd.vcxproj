@@ -152,6 +152,7 @@
     <ClInclude Include="include\xtd\XtdDefine.h" />
     <ClInclude Include="include\xtd\XtdMath.h" />
     <ClInclude Include="include\xtd\XtdString.h" />
+    <ClInclude Include="include\xtd\XtdTraits.h" />
     <ClInclude Include="include\xtd\XtdUnicode.h" />
     <ClInclude Include="src\Core\XtdDefinePrivate.h" />
     <ClInclude Include="src\Platform\Windows\WinAPI.h" />

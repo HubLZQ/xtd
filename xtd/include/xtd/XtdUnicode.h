@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "XtdDefine.h"
+#include "XtdTraits.h"
 
 BEGIN_NAMESPACE_XTD
 
@@ -751,6 +752,52 @@ inline U32Str Utf32ToUtf32(const Char32* str, const size_t len) { U32Str ret; de
 inline Str    Utf32ToStr  (const Char32* str, const size_t len) { Str    ret; detail::Utf32ToAnsi(str, len, ret); return ret; }
 inline WStr   Utf32ToWStr (const Char32* str, const size_t len) { WStr   ret; detail::Utf32ToWide(str, len, ret); return ret; }
 // clang-format on
+
+#ifdef XTD_CPP_20
+template<typename T, typename = std::enable_if_t<is_any_type_same<T, char, wchar_t, char8_t, char16_t, char32_t>>>
+#else
+template<typename T, typename = std::enable_if_t<is_any_type_same<T, char, wchar_t, char16_t, char32_t>>>
+#endif
+bool IsEmpty(const T* str)
+{
+    return !str || *str == 0;
+}
+
+#ifdef XTD_CPP_20
+template<typename T, typename = std::enable_if_t<is_any_type_same<T, char, wchar_t, char8_t, char16_t, char32_t>>>
+#else
+template<typename T, typename = std::enable_if_t<is_any_type_same<T, char, wchar_t, char16_t, char32_t>>>
+#endif
+bool IsNotEmpty(const T* str)
+{
+    return str && *str != 0;
+}
+
+template<typename T>
+bool IsEmpty(const std::basic_string<T>& str)
+{
+    return str.empty();
+}
+
+template<typename T>
+bool IsNotEmpty(const std::basic_string<T>& str)
+{
+    return !str.empty();
+}
+
+#ifdef XTD_CPP_17
+template<typename T>
+bool IsEmpty(const std::basic_string_view<T>& str)
+{
+    return str.empty();
+}
+
+template<typename T>
+bool IsNotEmpty(const std::basic_string_view<T>& str)
+{
+    return !str.empty();
+}
+#endif
 
 }// namespace text
 

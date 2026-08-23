@@ -107,7 +107,7 @@ void WideToUtf8(const WChar* str, size_t len, U8Str& output)
 void WideToUtf16(const WChar* str, size_t len, U16Str& output)
 {
     output.clear();
-    len = static_cast<int>(StrLen(str, static_cast<size_t>(len)));
+    len = static_cast<int>(StrLen(str, len));
     if(len == 0)
         return;
     conv<utfw, utf16>(reinterpret_cast<const utfw::char_type*>(str),
@@ -118,7 +118,7 @@ void WideToUtf16(const WChar* str, size_t len, U16Str& output)
 void WideToUtf32(const WChar* str, size_t len, U32Str& output)
 {
     output.clear();
-    len = static_cast<int>(StrLen(str, static_cast<size_t>(len)));
+    len = static_cast<int>(StrLen(str, len));
     if(len == 0)
         return;
     conv<utfw, utf32>(reinterpret_cast<const utfw::char_type*>(str),
@@ -129,7 +129,7 @@ void WideToUtf32(const WChar* str, size_t len, U32Str& output)
 void Utf8ToAnsi(const Char8* str, size_t len, Str& output)
 {
     output.clear();
-    len = static_cast<int>(StrLen(str, static_cast<size_t>(len)));
+    len = static_cast<int>(StrLen(str, len));
     if(len == 0)
         return;
 #ifdef XTD_PLATFORM_WINDOWS
