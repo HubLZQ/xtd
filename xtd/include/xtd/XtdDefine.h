@@ -47,6 +47,12 @@
 
 #ifdef _MSC_VER
     #define XTD_COMPILER_MSVC 1
+#elif defined(__GNUC__)
+    #define XTD_COMPILER_GCC 1
+#elif defined(__clang__)
+    #define XTD_COMPILER_CLANG 1
+#else
+    #error "Unkown compiler!"
 #endif
 
 #ifdef _MSC_VER
@@ -99,6 +105,97 @@
     }
 
 BEGIN_NAMESPACE_XTD
+
+#define NOT_COPYABLE(class_name)                       \
+    class_name(const class_name&)            = delete; \
+    class_name& operator=(const class_name&) = delete;
+
+#define NOT_MOVEABLE(class_name)                  \
+    class_name(class_name&&)            = delete; \
+    class_name& operator=(class_name&&) = delete;
+
+#define NOT_COPYABLE_AND_MOVEABLE(class_name) \
+    NOT_COPYABLE(class_name)                  \
+    NOT_MOVEABLE(class_name)
+
+#ifdef XTD_COMPILER_MSVC
+    #define XTD_DEPRECATED(msg) __declspec(deprecated(msg))
+#else
+    #define XTD_DEPRECATED(msg) [[deprecated(msg)]]
+#endif
+
+#define XTD_FUNCTION __FUNCSIG__
+#ifdef XTD_COMPILER_MSVC
+    #define XTD_PRETTY_FUNCTION __FUNCSIG__
+#else
+    #define XTD_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#endif
+
+#define XTD_FILE __FILE__
+#define XTD_LINE __LINE__
+
+#define XTD_STRINGIFY(x)          #x
+#define XTD_TOSTRING(x)           XTD_STRINGIFY(x)
+#define XTD_FILE_LINE             XTD_FILE ":" XTD_TOSTRING(XTD_LINE)
+#define XTD_FILE_LINE_FUNC        XTD_FILE_LINE " " XTD_FUNCTION
+#define XTD_FILE_LINE_PRETTY_FUNC XTD_FILE_LINE " " XTD_PRETTY_FUNCTION
+
+#ifdef XTD_COMPILER_MSVC
+    #define XTD_ALIGNOF(type)                 __alignof(type)
+    #define XTD_ALIGNAS(alignment)            __declspec(align(alignment))
+    #define XTD_ALIGNAS_TYPE(type, alignment) __declspec(align(alignment)) type
+#else
+    #define XTD_ALIGNOF(type)                 alignof(type)
+    #define XTD_ALIGNAS(alignment)            alignas(alignment)
+    #define XTD_ALIGNAS_TYPE(type, alignment) alignas(alignment) type
+#endif
+
+#ifdef XTD_COMPILER_MSVC
+    #define XTD_BREAKPOINT() __debugbreak()
+#elif defined(XTD_COMPILER_GCC)
+    #define XTD_BREAKPOINT() __builtin_trap()
+#elif defined(XTD_COMPILER_CLANG)
+    #define XTD_BREAKPOINT() __builtin_debugtrap()
+#else
+    #error "Unknown compiler!"
+#endif
+
+#define XTD_UNUSED(x) (void)(x)
+#define XTD_PASS() \
+    do             \
+    {              \
+    }              \
+    while(0)
+
+#define XTD_ASSERT(expr)  \
+    if(!(expr))           \
+    {                     \
+        XTD_BREAKPOINT(); \
+    }
+
+#define XTD_ASSERT_MSG(expr, msg) \
+    if(!(expr))                   \
+    {                             \
+        std::cerr << msg << "\n"; \
+        XTD_BREAKPOINT();         \
+    }
+
+#define XTD_ASSERT_MSG_FUNC(expr, msg)                            \
+    if(!(expr))                                                   \
+    {                                                             \
+        std::cerr << msg << " at " << XTD_FILE_LINE_FUNC << "\n"; \
+        XTD_BREAKPOINT();                                         \
+    }
+
+#ifdef XTD_COMPILER_MSVC
+#define XTD_INLINE      __inline
+#define XTD_NOINLINE    __declspec(noinline)
+#define XTD_FORCEINLINE __forceinline
+#else
+#define XTD_INLINE      __inline
+#define XTD_NOINLINE    __attribute__((noinline))
+#define XTD_FORCEINLINE __attribute__((always_inline))
+#endif
 
 using I8    = int8_t;
 using I16   = int16_t;
