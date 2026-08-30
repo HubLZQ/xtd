@@ -160,6 +160,20 @@ BEGIN_NAMESPACE_XTD
     #error "Unknown compiler!"
 #endif
 
+#ifdef XTD_COMPILER_MSVC
+    #ifdef _DEBUG
+    #define XTD_DEBUG 1
+    #else
+    #define XTD_RELEASE 1
+    #endif
+#else
+    #ifdef DEBUG
+    #define XTD_DEBUG 1
+    #else
+    #define XTD_RELEASE 1
+    #endif
+#endif
+
 #define XTD_UNUSED(x) (void)(x)
 #define XTD_PASS() \
     do             \
@@ -167,25 +181,31 @@ BEGIN_NAMESPACE_XTD
     }              \
     while(0)
 
-#define XTD_ASSERT(expr)  \
-    if(!(expr))           \
-    {                     \
-        XTD_BREAKPOINT(); \
-    }
+#ifdef XTD_DEBUG
+    #define XTD_ASSERT(expr)  \
+        if(!(expr))           \
+        {                     \
+            XTD_BREAKPOINT(); \
+        }
 
-#define XTD_ASSERT_MSG(expr, msg) \
-    if(!(expr))                   \
-    {                             \
-        std::cerr << msg << "\n"; \
-        XTD_BREAKPOINT();         \
-    }
+    #define XTD_ASSERT_MSG(expr, msg) \
+        if(!(expr))                   \
+        {                             \
+            std::cerr << msg << "\n"; \
+            XTD_BREAKPOINT();         \
+        }
 
-#define XTD_ASSERT_MSG_FUNC(expr, msg)                            \
-    if(!(expr))                                                   \
-    {                                                             \
-        std::cerr << msg << " at " << XTD_FILE_LINE_FUNC << "\n"; \
-        XTD_BREAKPOINT();                                         \
-    }
+    #define XTD_ASSERT_MSG_FUNC(expr, msg)                            \
+        if(!(expr))                                                   \
+        {                                                             \
+            std::cerr << msg << " at " << XTD_FILE_LINE_FUNC << "\n"; \
+            XTD_BREAKPOINT();                                         \
+        }
+#else
+    #define XTD_ASSERT(expr)               XTD_PASS()
+    #define XTD_ASSERT_MSG(expr, msg)      XTD_PASS()
+    #define XTD_ASSERT_MSG_FUNC(expr, msg) XTD_PASS()
+#endif
 
 #ifdef XTD_COMPILER_MSVC
 #define XTD_INLINE      __inline

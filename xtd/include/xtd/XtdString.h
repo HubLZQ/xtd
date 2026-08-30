@@ -10,6 +10,7 @@ template<typename T>
 struct StrTraitBase
 {
     using CharType = T;
+    using SizeType = size_t;
     using PStr     = CharType*;
     using PCStr    = const CharType*;
     using StdStr   = std::basic_string<CharType>;
@@ -38,11 +39,12 @@ template<typename T>
 class StrT
 {
 public:
-    using XChar   = T;
-    using XTrait  = detail::StrTrait<XChar>;
-    using XPStr   = typename XTrait::PStr;
-    using XPCStr  = typename XTrait::PCStr;
-    using XStdStr = typename XTrait::StdStrType;
+    using XChar     = T;
+    using XTrait    = detail::StrTrait<XChar>;
+    using XPStr     = typename XTrait::PStr;
+    using XPCStr    = typename XTrait::PCStr;
+    using XStdStr   = typename XTrait::StdStrType;
+    using XSizeType = typename XTrait::SizeType;
 
 public:
     StrT() = default;
@@ -68,13 +70,13 @@ public:
         return *this;
     }
 
-    StrT& assign(const XStdStr& str, size_t pos, size_t count)
+    StrT& assign(const XStdStr& str, XSizeType pos, XSizeType count)
     {
         m_str.assign(str, pos, count);
         return *this;
     }
 
-    StrT& assign(const StrT& str, size_t pos, size_t count)
+    StrT& assign(const StrT& str, XSizeType pos, XSizeType count)
     {
         m_str.assign(str.m_str, pos, count);
         return *this;
@@ -87,13 +89,13 @@ public:
         return *this;
     }
 
-    StrT& assign(size_t count, XChar ch)
+    StrT& assign(XSizeType count, XChar ch)
     {
         m_str.assign(count, ch);
         return *this;
     }
 
-    StrT& assign(XPCStr str, size_t count)
+    StrT& assign(XPCStr str, XSizeType count)
     {
         m_str.assign(str, count);
         return *this;
@@ -114,7 +116,7 @@ public:
 
 #ifdef XTD_CPP_17
     template<typename SV>
-    StrT& assign(const SV& t, size_t pos, size_t count = detail::NPos)
+    StrT& assign(const SV& t, XSizeType pos, XSizeType count = detail::NPos)
     {
         m_str.assign(t, pos, count);
         return *this;
@@ -150,6 +152,18 @@ public:
     {
         m_str = std::forward<U>(value);
         return *this;
+    }
+
+    XChar& operator[](XSizeType pos)
+    {
+        XTD_ASSERT(pos < m_str.length());
+        return m_str[pos];
+    }
+
+    const XChar& operator[](XSizeType pos) const
+    {
+        XTD_ASSERT(pos < m_str.length());
+        return m_str[pos];
     }
 
     // clang-format off
@@ -208,15 +222,49 @@ public:
     operator XStdStr&() { return m_str; }
     operator const XStdStr&() const { return m_str; }
 
+#ifdef XTD_CPP_17
+    template<typename CharT, typename Traits = std::char_traits<CharT>>
+    operator std::basic_string_view<CharT, Traits>() const noexcept
+    {
+        return std::basic_string_view<CharT, Traits>(m_str.data(), m_str.size());
+    }
+#endif
 
-    XPCStr c_str() const { return m_str.c_str(); }
-    size_t length() const { return m_str.length(); }
-    size_t size() const { return m_str.size(); }
-    bool   empty() const { return m_str.empty(); }
-    void   clear() { m_str.clear(); }
+    XPCStr front() const { return m_str.c_str(); }
+    XPCStr back() const
+    {
+        XTD_ASSERT(!m_str.empty());
+        return m_str[m_str.length() - 1];
+    }
 
+    // clang-format off
+    XPCStr    c_str   () const { return m_str.c_str(); }
+    XPCStr    data    () const { return m_str.c_str(); }
+    XPStr     data    ()       { return static_cast<XPStr>(m_str.data()); }
+    XSizeType length  () const { return m_str.length(); }
+    XSizeType size    () const { return m_str.size(); }
+    XSizeType max_size() const { return m_str.max_size(); }
+    XSizeType capacity() const { return m_str.capacity(); }
+    bool      empty   () const { return m_str.empty(); }
+    void      clear   ()       { m_str.clear(); }
+    void      reserve(XSizeType new_cap = 0) { m_str.reserve(new_cap); }
+    // clang-format on
+
+    // clang-format off
+    auto begin  ()       { return m_str.begin(); }
+    auto cbegin () const { return m_str.begin(); }
+    auto end    ()       { return m_str.end(); }
+    auto cend   () const { return m_str.end(); }
+    auto rbegin ()       { return m_str.rbegin(); }
+    auto crbegin() const { return m_str.rbegin(); }
+    auto rend   ()       { return m_str.rend(); }
+    auto crend  () const { return m_str.rend(); }
+    // clang-format on
+
+    // clang-format off
     const XStdStr& str() const { return m_str; }
-    XStdStr&       str() { return m_str; }
+    XStdStr&       str()       { return m_str; }
+    // clang-format on
 
 private:
     XStdStr m_str;
